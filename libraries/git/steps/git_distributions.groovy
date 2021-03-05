@@ -56,7 +56,6 @@ void init_env(){
         }
 
         println "Found Git Build Cause: ${env.GIT_BUILD_CAUSE}"
-    }
     return
 }
 
