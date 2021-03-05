@@ -15,6 +15,9 @@ void call(){
         remove_local_image = config.remove_local_image
     }
 
+    node{
+      unstash "workspace"
+
       login_to_registry{
         def images = get_images_to_build()
         withBuildArgs{ args ->
@@ -26,6 +29,7 @@ void call(){
         }
       }
 
+    }
   }
 }
 
