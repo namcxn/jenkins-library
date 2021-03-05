@@ -29,11 +29,11 @@ void call(){
 
 // Initialize Git configuration of env vars
 void init_env(){
-        try{ unstash "workspace" }
-        catch(ignored) { 
-          println "'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded"
-          return
-        }
+        //try{ unstash "workspace" }
+        //catch(ignored) { 
+        //  println "'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded"
+        //  return
+        //}
 
         env.GIT_URL = scm.getUserRemoteConfigs()[0].getUrl()
         env.GIT_CREDENTIAL_ID = scm.getUserRemoteConfigs()[0].credentialsId.toString()
@@ -56,6 +56,7 @@ void init_env(){
         }
 
         println "Found Git Build Cause: ${env.GIT_BUILD_CAUSE}"
+    }
     return
 }
 
