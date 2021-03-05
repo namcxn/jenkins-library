@@ -15,21 +15,18 @@ void call(){
         remove_local_image = config.remove_local_image
     }
 
-    node{
-      unstash "workspace"
 
-      login_to_registry{
-        def images = get_images_to_build()
-        withBuildArgs{ args ->
-          images.each{ img ->
-            sh "docker build ${img.context} -t ${img.registry}/${img.repo}:${img.tag} ${args}"
-            sh "docker push ${img.registry}/${img.repo}:${img.tag}"
-            if (remove_local_image) sh "docker rmi -f ${img.registry}/${img.repo}:${img.tag} 2> /dev/null"
-          }
+    login_to_registry{
+      def images = get_images_to_build()
+      withBuildArgs{ args ->
+        images.each{ img ->
+          sh "docker build ${img.context} -t ${img.registry}/${img.repo}:${img.tag} ${args}"
+          sh "docker push ${img.registry}/${img.repo}:${img.tag}"
+          if (remove_local_image) sh "docker rmi -f ${img.registry}/${img.repo}:${img.tag} 2> /dev/null"
         }
       }
-
     }
+
   }
 }
 
