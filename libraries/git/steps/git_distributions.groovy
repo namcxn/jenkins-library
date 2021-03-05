@@ -29,7 +29,6 @@ void call(){
 
 // Initialize Git configuration of env vars
 void init_env(){
-    node{
         try{ unstash "workspace" }
         catch(ignored) { 
           println "'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded"
@@ -57,7 +56,6 @@ void init_env(){
         }
 
         println "Found Git Build Cause: ${env.GIT_BUILD_CAUSE}"
-    }
     return
 }
 
