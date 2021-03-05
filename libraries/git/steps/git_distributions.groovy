@@ -37,7 +37,7 @@ void init_env(){
         //   println "'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded"
         //   return
         // }
-
+    stage "Checkout", {
         cleanWs()
         try{
             checkout scm
@@ -68,7 +68,7 @@ void init_env(){
         }
 
         println "Found Git Build Cause: ${env.GIT_BUILD_CAUSE}"
-    // }
+    }
     return
 }
 
