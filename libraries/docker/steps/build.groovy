@@ -15,7 +15,6 @@ void call(){
         remove_local_image = config.remove_local_image
     }
 
-    node{
       unstash "workspace"
 
       login_to_registry{
@@ -29,7 +28,6 @@ void call(){
         }
       }
 
-    }
   }
 }
 
