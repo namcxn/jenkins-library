@@ -30,11 +30,20 @@ void call(){
 // Initialize Git configuration of env vars
 void init_env(){
     //node{
-        // try{ unstash "workspace" }
+        // try { unstash "workspace" }
         // catch(ignored) { 
         //   println "'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded"
         //   return
         // }
+
+        cleanWs()
+        try{
+            checkout scm
+        }catch(AbortException ex) {
+            println "scm var not present, skipping source code checkout" 
+        }catch(err){
+          println "exception ${err}" 
+        } 
 
         env.GIT_URL = scm.getUserRemoteConfigs()[0].getUrl()
         env.GIT_CREDENTIAL_ID = scm.getUserRemoteConfigs()[0].credentialsId.toString()
