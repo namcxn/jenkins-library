@@ -1,5 +1,7 @@
 package libraries.git
 
+import hudson.AbortException
+
 /*
   Validate library configuration
 */
