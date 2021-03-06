@@ -20,7 +20,11 @@ void call(){
       def images = get_images_to_build()
       withBuildArgs{ args ->
         images.each{ img ->
-          sh "docker build ${img.context} -t ${img.registry}/${img.repo}:${img.tag} ${args}"
+          if (config.build_strategy == "multi") {
+           sh "docker build ${img.context} -f ${config.path_dockerfile} -t ${img.registry}/${img.repo}:${img.tag} ${args}" 
+          } else {
+            sh "docker build ${img.context} -t ${img.registry}/${img.repo}:${img.tag} ${args}"
+          }
           sh "docker push ${img.registry}/${img.repo}:${img.tag}"
           if (remove_local_image) sh "docker rmi -f ${img.registry}/${img.repo}:${img.tag} 2> /dev/null"
         }
