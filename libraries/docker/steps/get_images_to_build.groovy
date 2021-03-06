@@ -40,7 +40,7 @@ def call(){
       case "multi":
         String pathDockerfile = config.path_dockerfile ?: "**/*.Dockerfile"
         findFiles(glob: pathDockerfile).each {
-          image.push([
+          images.push([
             registry: image_reg,
             repo: "${path_prefix}${env.REPO_NAME}_${service}".toLowerCase(),
             tag: env.GIT_SHA,
