@@ -47,6 +47,7 @@ def call(){
             context: "." 
           ])
         }
+        break
       case "dockerfile": //same as null/default case
       case null:
         images.push([
