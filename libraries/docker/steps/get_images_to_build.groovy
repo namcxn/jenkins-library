@@ -38,8 +38,8 @@ def call(){
         }
         break
       case "multi":
-        String pathDockerfile = config.path_dockerfile ?: "**/*.Dockerfile"
-        findFiles(glob: pathDockerfile).each {
+        String pathDockerfile = config.path_dockerfile ?: "**/Dockerfile"
+        findFiles(glob: pathDockerfile).each { service ->
           images.push([
             registry: image_reg,
             repo: "${path_prefix}${env.REPO_NAME}_${service}".toLowerCase(),
