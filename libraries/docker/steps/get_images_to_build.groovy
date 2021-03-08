@@ -16,6 +16,8 @@ def call(){
     def (image_reg) = get_registry_info() // config.registry
     def path_prefix = config.repo_path_prefix ? config.repo_path_prefix + "/" : ""
 
+    // String pathDockerfile = config.path_dockerfile ?: "**/Dockerfile"
+
     def build_strategies = [ "docker-compose", "modules", "multi", "dockerfile" ]
     if (config.build_strategy)
     if (!(config.build_strategy in build_strategies))
