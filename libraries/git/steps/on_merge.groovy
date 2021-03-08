@@ -32,7 +32,7 @@ void call(Map args = [:], body){
 }
 
 String get_merged_from(){
-    unstash "workspace"
+    // unstash "workspace"
     // update remote for git name-rev to properly work
     def remote = env.GIT_URL
     def cred_id = env.GIT_CREDENTIAL_ID
@@ -67,7 +67,7 @@ String get_merged_from(){
 }
 
 String get_feature_branch_sha(){
-    unstash "workspace"
+    // unstash "workspace"
     sh(
       script: "git rev-parse \$(git --no-pager log -n1 | grep Merge: | awk '{print \$3}')",
       returnStdout: true
