@@ -7,7 +7,11 @@ void call(String _url = null, String _credentialId = null, def body){
 
   String protocol = config.registry_protocol ?: "https://"
   String url = _url ?: "${protocol}${repository}"
-  String credentialId = _credentialId ?: "gcr:${cred}" 
+  if ( config.registry =~ "(gcr.io|asia.gcr.io|eu.gcr.io|us.gcr.io)")
+    String credentialId = _credentialId ?: "gcr:${cred}"
+  else {
+    String credentialId = _credentialId ?: cred 
+  }
 
   docker.withRegistry(url, credentialId, body)
 
