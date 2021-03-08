@@ -22,6 +22,7 @@ def call(){
       error "build strategy: ${config.build_strategy} not one of ${build_strategies}"
 
     def images = []
+    def listPath = []
 
     switch (config.build_strategy) {
       case "docker-compose":
