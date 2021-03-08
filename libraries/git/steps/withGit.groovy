@@ -17,7 +17,6 @@ void call(Map args, Closure body){
   withCredentials([usernamePassword(credentialsId: args.cred, passwordVariable: 'PASS', usernameVariable: 'USER')]) {
     repo = args.url.split("/").last() - ".git"
     withEnv(["git_url_with_creds=${args.url.replaceFirst("://","://${USER}:${PASS}@")}"]) {
-      node {
         sh "rm -rf ${repo}"
         sh "set +x && git clone ${env.git_url_with_creds}"
         dir(repo){
@@ -27,7 +26,6 @@ void call(Map args, Closure body){
           body.delegate = this
           body.run()
         }
-      }
     }
   }
 }

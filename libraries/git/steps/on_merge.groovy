@@ -32,7 +32,6 @@ void call(Map args = [:], body){
 }
 
 String get_merged_from(){
-  node{
     unstash "workspace"
     // update remote for git name-rev to properly work
     def remote = env.GIT_URL
@@ -65,7 +64,6 @@ String get_merged_from(){
         branchNames.add(branch)
     }
     return branchNames
-  }
 }
 
 String get_feature_branch_sha(){
