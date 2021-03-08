@@ -40,6 +40,9 @@ String get_merged_from(){
         remote = remote.replaceFirst("://", "://${USER}:${PASS}@")
         sh "git remote rm origin"
         sh "git remote add origin ${remote}"
+        // sh "git fetch --all > /dev/null 2>&1"
+        // with debug
+        sh "ls -la"
         sh "git fetch --all > /dev/null 2>&1"
     }
     // list all shas, but trim the first two shas
