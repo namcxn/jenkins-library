@@ -43,6 +43,8 @@ String get_merged_from(){
         // sh "git fetch --all > /dev/null 2>&1"
         // with debug
         sh "ls -la"
+        sh "git status"
+        sh "git log"
         sh "git fetch --all"
     }
     // list all shas, but trim the first two shas
