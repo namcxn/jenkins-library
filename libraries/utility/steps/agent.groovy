@@ -1,5 +1,8 @@
 package libraries.utility 
 
+import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
+import hudson.model.Result
+
 void call(Closure body, Closure c4tch = null) {
   podTemplate(cloud: 'kubernetes', containers: [
     containerTemplate(name: 'docker-dind-gcloud', image: 'axieinfinity/axie-docker-dind-gcloud:latest', ttyEnabled: true, privileged: true, command: 'cat'),
