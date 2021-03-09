@@ -1,6 +1,6 @@
 package libraries.utility 
 
-void call(Closure body) {
+void call(Closure body, Closure c4tch = null) {
   podTemplate(cloud: 'kubernetes', containers: [
     containerTemplate(name: 'docker-dind-gcloud', image: 'axieinfinity/axie-docker-dind-gcloud:latest', ttyEnabled: true, privileged: true, command: 'cat'),
     containerTemplate(name: 'helm-gcloud', image: 'axieinfinity/axie-helm3-gcloud:latest', ttyEnabled: true, privileged: true, command: 'cat'),
@@ -13,8 +13,22 @@ void call(Closure body) {
     node(POD_LABEL) {
       try {
         body()
-      } catch (Exception e) {
-        echo 'Exception occurred: ' + e.toString()
+      } catch (exception) {
+        if (exception instanceof FlowInterruptedException) {
+            currentBuild.result = ((FlowInterruptedException) exception).result.toString()
+        } else {
+            currentBuild.result = Result.FAILURE.toString()
+        }
+
+        println "Got exception: ${hudson.Functions.printThrowable(exception)}"
+
+        if (c4tch) {
+            c4tch(exception)
+        } else {
+            throw exception
+        }
+      } finally {
+        discord()
       }
     }
   }
