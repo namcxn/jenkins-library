@@ -10,6 +10,8 @@ void call(Closure body) {
     hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
     configMapVolume(mountPath: '/root/.gcloud/', configMapName: 'helm-secrets-confimap'),
   ]) {
-    node(POD_LABEL, body)
+    node(POD_LABEL) {
+      body()
+    }
   }
 }
