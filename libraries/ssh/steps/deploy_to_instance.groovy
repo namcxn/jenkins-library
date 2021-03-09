@@ -9,7 +9,7 @@ void call(app_env) {
     /*
        ssh credential 
     */
-    def ssh_credential = app_env.ssh_credential ?:
+    String ssh_credential = app_env.ssh_credential ?:
                          config.ssh_credential ?:
                          {error "SSH credentail not found"}()
 
