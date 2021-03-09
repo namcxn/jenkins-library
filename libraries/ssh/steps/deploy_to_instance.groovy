@@ -22,6 +22,8 @@ void call(app_env) {
       String release = config.method_release ?: "command"
       if ( release == "command") {
         echo "Release to DEV"
+        echo "USERNAME ${userName}"
+        echo "PRIVATE ${identityFile}"
         sshCommand remote: remote, command: 'uname -r'
         //command_release()
       }
