@@ -14,6 +14,8 @@ void call(app_env) {
                          {error "SSH credentail not found"}()
     String user_name = app_env.ssh_user ?:
                        config.ssh_user ?: "deploy"
+    // JSch does not support OpenSSH key format.
+    // just the following command: ssh-keygen -p -m pem -f id_rsa
     withCredentials([sshUserPrivateKey(credentialsId: ssh_credential, keyFileVariable: 'IDENTIY_FILE',
             passphraseVariable: '',
             usernameVariable: 'USERNAME')]){
