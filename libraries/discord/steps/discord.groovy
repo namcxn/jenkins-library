@@ -11,6 +11,7 @@ void call() {
 }
 
 void discordTo(Map parameters = [:]) {
+  // if (config.discord_cred != null) {
   if (config.discord_cred != " ") {
     withCredentials([usernamePassword(
         credentialsId: parameters.credentialsId ?: config.discord_cred,
