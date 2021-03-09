@@ -11,13 +11,11 @@ void call(Closure body) {
     configMapVolume(mountPath: '/root/.gcloud/', configMapName: 'helm-secrets-confimap'),
   ]) {
     node(POD_LABEL) {
-      handleException {
+      try {
         body()
-      } { Exception exception ->
-        throw exception
-    } {
-      echo "Error"
-    }
+      } catch (Exception e) {
+        echo 'Exception occurred: ' + e.toString()
+      }
     }
   }
 }
