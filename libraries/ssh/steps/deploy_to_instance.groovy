@@ -15,13 +15,14 @@ void call(app_env) {
 
     withCredentials([sshUserPrivateKey(credentialsId: ssh_credential, 
             keyFileVariable: 'identityFile',
-            usernameVariable: 'userName' )]){
+            passphraseVariable: '',
+            usernameVariable: 'userName')]){
       remote.user = userName
       remote.identityFile = identityFile
       String release = config.method_release ?: "command"
       if ( release == "command") {
         echo "Release to DEV"
-        sshCommand remote: remote, command: "uname -r" 
+        sshCommand remote: remote, command: 'uname -r'
         //command_release()
       }
     }
