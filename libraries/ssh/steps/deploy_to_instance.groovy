@@ -13,17 +13,14 @@ void call(app_env) {
                          config.ssh_credential ?:
                          {error "SSH credentail not found"}()
 
-    withCredentials([sshUserPrivateKey(credentialsId: ssh_credential, 
-            keyFileVariable: 'identityFile',
+    withCredentials([sshUserPrivateKey(credentialsId: ssh_credential, keyFileVariable: 'IDENTIY_FILE',
             passphraseVariable: '',
-            usernameVariable: 'userName')]){
-      remote.user = userName
-      remote.identityFile = identityFile
+            usernameVariable: 'USERNAME')]){
+      remote.user = USERNAME
+      remote.identityFile = IDENTIY_FILE
       String release = config.method_release ?: "command"
       if ( release == "command") {
         echo "Release to DEV"
-        echo "USERNAME ${userName}"
-        echo "PRIVATE ${identityFile}"
         sshCommand remote: remote, command: 'uname -r'
         //command_release()
       }
