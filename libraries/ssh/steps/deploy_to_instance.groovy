@@ -12,13 +12,15 @@ void call(app_env) {
     String ssh_credential = app_env.ssh_credential ?:
                          config.ssh_credential ?:
                          {error "SSH credentail not found"}()
-
+    String user_name = app_env.ssh_user ?:
+                       config.ssh_user ?: "deploy"
     withCredentials([sshUserPrivateKey(credentialsId: ssh_credential, keyFileVariable: 'IDENTIY_FILE',
             passphraseVariable: '',
             usernameVariable: 'USERNAME')]){
-      remote.user = "${USERNAME}"
+      
+      remote.user = user_name
       remote.identityFile = "${IDENTIY_FILE}"
-      remote.identity = "${IDENTIY_FILE}" 
+
       String release = config.method_release ?: "command"
       if ( release == "command") {
         echo "Release to DEV"
