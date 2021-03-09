@@ -16,8 +16,9 @@ void call(app_env) {
     withCredentials([sshUserPrivateKey(credentialsId: ssh_credential, keyFileVariable: 'IDENTIY_FILE',
             passphraseVariable: '',
             usernameVariable: 'USERNAME')]){
-      remote.user = USERNAME
-      remote.identityFile = IDENTIY_FILE
+      remote.user = "${USERNAME}"
+      remote.identityFile = "${IDENTIY_FILE}"
+      remote.identity = "${IDENTIY_FILE}" 
       String release = config.method_release ?: "command"
       if ( release == "command") {
         echo "Release to DEV"
