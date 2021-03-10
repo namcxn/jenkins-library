@@ -43,12 +43,12 @@ def call(){
       case "multi":
         String pathDockerfile = config.path_dockerfile ?: "**/Dockerfile"
         findFiles(glob: pathDockerfile).name.each { service ->
-          images.push([
-            registry: image_reg,
-            repo: "${path_prefix}${env.REPO_NAME}_${service}".toLowerCase(),
-            tag: env.GIT_SHA,
-            context: "." 
-          ])
+            images.push([
+              registry: image_reg,
+              repo: "${path_prefix}${env.REPO_NAME}_${service}".toLowerCase(),
+              tag: "${env.BRANCH_NAM}-${env.GIT_SHA}",
+              context: "." 
+            ])
         }
         break
       case "dockerfile": //same as null/default case
