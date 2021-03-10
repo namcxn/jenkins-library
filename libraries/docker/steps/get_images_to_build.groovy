@@ -42,7 +42,7 @@ def call(){
         break
       case "multi":
         String pathDockerfile = config.path_dockerfile ?: "**/Dockerfile"
-        findFiles(glob: pathDockerfile).split("/")[-1].split("[.]")[0].each { service ->
+        findFiles(glob: pathDockerfile).collect{ it.path.split("/")[-1].split("[.]")[0]}.each { service ->
           //String service_name = service.split(".").first()
           // debug
           //echo "Print ${service_name}"
