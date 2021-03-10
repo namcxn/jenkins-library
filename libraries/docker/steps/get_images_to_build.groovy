@@ -45,12 +45,13 @@ def call(){
         findFiles(glob: pathDockerfile).collect{ it.path.split("/")[-1].split("[.]")[0]}.each { service ->
           // debug
           String service_name = (service == "Dockerfile") ? 'svc' : service
-            images.push([
-              registry: image_reg,
-              repo: "${path_prefix}${env.REPO_NAME}_${service_name}".toLowerCase(),
-              tag: "${env.BRANCH_NAME}-${env.GIT_SHA}",
-              context: "." 
-            ])
+
+          images.push([
+            registry: image_reg,
+            repo: "${path_prefix}${env.REPO_NAME}_${service_name}".toLowerCase(),
+            tag: "${env.BRANCH_NAME}-${env.GIT_SHA}",
+            context: "." 
+          ])
         }
         break
       case "dockerfile": //same as null/default case
