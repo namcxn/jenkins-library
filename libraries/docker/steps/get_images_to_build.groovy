@@ -43,9 +43,7 @@ def call(){
       case "multi":
         String pathDockerfile = config.path_dockerfile ?: "**/Dockerfile"
         findFiles(glob: pathDockerfile).collect{ it.path.split("/")[-1].split("[.]")[0]}.each { service ->
-          //String service_name = service.split(".").first()
           // debug
-          //echo "Print ${service_name}"
           String service_name = (service == "Dockerfile") ? 'svc' : service
             images.push([
               registry: image_reg,
