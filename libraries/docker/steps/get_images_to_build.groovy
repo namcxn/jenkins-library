@@ -46,7 +46,7 @@ def call(){
           //String service_name = service.split(".").first()
           // debug
           //echo "Print ${service_name}"
-          String service_name = (service == "Dockerfile") ? 'service' : service
+          String service_name = (service == "Dockerfile") ? 'svc' : service
             images.push([
               registry: image_reg,
               repo: "${path_prefix}${env.REPO_NAME}_${service_name}".toLowerCase(),
