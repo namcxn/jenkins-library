@@ -81,7 +81,7 @@ void withBuildArgs(Closure body){
 @Validate
 void validate_docker_build(){
 
-  if (fileExists config.path_dockerfile) {
+  if (fileExists(config.path_dockerfile)) {
     error "could not Dockerfile"
   }
 
