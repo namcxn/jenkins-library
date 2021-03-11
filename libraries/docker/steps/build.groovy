@@ -15,6 +15,10 @@ void call(){
         remove_local_image = config.remove_local_image
     }
 
+    def exists = fileExists config.path_dockerfile.
+    if (exists) {
+      error "could not Dockerfile"
+    }
 
     login_to_registry{
       def images = get_images_to_build()
@@ -80,10 +84,6 @@ void withBuildArgs(Closure body){
 */
 @Validate
 void validate_docker_build(){
-
-  if (fileExists(config.path_dockerfile)) {
-    error "could not Dockerfile"
-  }
 
   if(!config.containsKey("build_args")){
     return 
