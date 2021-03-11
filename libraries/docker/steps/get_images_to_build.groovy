@@ -9,7 +9,7 @@ package libraries.docker
     context: directory context for docker build
 
   a docker build command would then be:
-    docker build img.context -t img.registry/img.repo:img.tag
+    docker build img.context -f pathDockerfile -t img.registry/img.repo:img.tag
 */
 def call(){
 
