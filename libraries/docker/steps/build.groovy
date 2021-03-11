@@ -15,10 +15,10 @@ void call(){
         remove_local_image = config.remove_local_image
     }
 
-    def exists = fileExists config.path_dockerfile
-    if (exists) {
-      error "could not Dockerfile"
-    }
+    // def exists = fileExists config.path_dockerfile
+    // if (exists) {
+    //   error "could not Dockerfile"
+    // }
 
     login_to_registry{
       def images = get_images_to_build()
