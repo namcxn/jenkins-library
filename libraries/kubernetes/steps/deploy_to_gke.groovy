@@ -2,7 +2,7 @@
 package libraries.kubernetes
 
 void call(app_env) {
-  stage "Deploy to ${app_env.cluster_name}" {
+  stage "Deploy to ${app_env.cluster_name}", {
 
   def cluster_name = app_env.cluster_name ?:
                      config.cluster_name ?:
