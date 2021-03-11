@@ -26,7 +26,7 @@ void call(app_env) {
 
       String release = config.method_release ?: "command"
       if ( release == "command") {
-        echo "Release to DEV"
+        echo "Release to ${app_env}"
         sshCommand remote: remote, command: 'uname -r'
         //command_release()
       }
@@ -35,8 +35,12 @@ void call(app_env) {
 }
 
 void command_release() {
+  def images = get_images_to_build()
 
-  String
+  images.each{ img ->
+    
+  }
+  String docker_command = 
 
   sshCommand remote: remote, command: "${docker_command}"
 }
