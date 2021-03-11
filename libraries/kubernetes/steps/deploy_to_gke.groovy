@@ -16,12 +16,16 @@ void call(app_env) {
                     config.project_id ?:
                     {error "k8s cluster not defined in library config or application environment config"}()
 
+  def app_cred = app_env.app_cred ?:
+                 config.project_id ?:
+                 {error "k8s cluster not defined in library config or application environment config"}()
+   sh "gcloud auth activate-service-account --key-file=${app_cred}"
    sh "gcloud container clusters get-credentials ${cluster_name} --zone ${cluster_zone} --project ${project_id}"
    sh label: 'Deploy to development', script: '''
                                 kubectl cluster-info
                                 helm repo add skymavis https://charts.skymavis.one
                                 helm repo update
-                                helm secrets upgrade --atomic --install ${JOB_NAME} skymavis/${JOB_NAME} --version ${HELM_CHART_VERSION} --namespace ${NAMESPACE} --set-string image.repository=${GCR_URL}/${PROJECT_NAME} --set-string image.tag=${BUILD_TAG} -f helm_vars/${ENV}/values.yaml -f helm_vars/${ENV}/secrets.yaml
                                 '''
+                                // helm secrets upgrade --atomic --install ${JOB_NAME} skymavis/${JOB_NAME} --version ${HELM_CHART_VERSION} --namespace ${NAMESPACE} --set-string image.repository=${GCR_URL}/${PROJECT_NAME} --set-string image.tag=${BUILD_TAG} -f helm_vars/${ENV}/values.yaml -f helm_vars/${ENV}/secrets.yaml
   }
 }
