@@ -15,7 +15,7 @@ void call(){
         remove_local_image = config.remove_local_image
     }
 
-    def exists = fileExists config.path_dockerfile.
+    def exists = fileExists config.path_dockerfile
     if (exists) {
       error "could not Dockerfile"
     }
