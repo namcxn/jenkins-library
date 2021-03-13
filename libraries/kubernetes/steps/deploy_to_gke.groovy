@@ -19,6 +19,24 @@ void call(app_env) {
   def app_cred = app_env.app_cred ?:
                  config.project_id ?:
                  {error "k8s cluster not defined in library config or application environment config"}()
+
+  /*
+       helm release name.
+       will use "release_name" if present on app env object
+       or will use "short_name" if present on app_env object.
+       will fail otherwise.
+    */
+  def release = app_env.release_name ?:
+                "${JOBNAME}"
+                {error "App Env Must Specify release_name or short_name"}()
+
+   /*
+      // k8s context
+  def k8s_context = app_env.k8s_context ?:
+                    config.k8s_context            ?:
+                    {error "Kubernetes Context Not Defined"}()
+    */
+      
    sh "gcloud auth activate-service-account --key-file=${app_cred}"
    sh "gcloud container clusters get-credentials ${cluster_name} --zone ${cluster_zone} --project ${project_id}"
    sh label: 'Deploy to development', script: '''
@@ -26,6 +44,6 @@ void call(app_env) {
                                 helm repo add skymavis https://charts.skymavis.one
                                 helm repo update
                                 '''
-                                // helm secrets upgrade --atomic --install ${JOB_NAME} skymavis/${JOB_NAME} --version ${HELM_CHART_VERSION} --namespace ${NAMESPACE} --set-string image.repository=${GCR_URL}/${PROJECT_NAME} --set-string image.tag=${BUILD_TAG} -f helm_vars/${ENV}/values.yaml -f helm_vars/${ENV}/secrets.yaml
+                                // helm secrets upgrade --atomic --install ${release} skymavis/${JOB_NAME} --version ${HELM_CHART_VERSION} --namespace ${NAMESPACE} --set-string image.repository=${GCR_URL}/${PROJECT_NAME} --set-string image.tag=${BUILD_TAG} -f helm_vars/${ENV}/values.yaml -f helm_vars/${ENV}/secrets.yaml
   }
 }
