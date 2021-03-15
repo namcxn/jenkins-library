@@ -27,7 +27,7 @@ void call(app_env) {
        will fail otherwise.
     */
   def release = app_env.release_name ?:
-                "$JOBNAME" ?:
+                "${JOBNAME}" ?:
                 {error "App Env Must Specify release_name"}()
 
    /*
