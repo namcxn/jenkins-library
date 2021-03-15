@@ -46,14 +46,27 @@ void call(app_env) {
                     config.k8s_context            ?:
                     {error "Kubernetes Context Not Defined"}()
     */
-      
-   sh "gcloud auth activate-service-account --key-file=${app_cred}"
-   sh "gcloud container clusters get-credentials ${cluster_name} --zone ${cluster_zone} --project ${project_id}"
-   sh label: 'Deploy to development', script: '''
+
+  def images = get_images_to_build()
+  images.each { img ->
+    sh "gcloud auth activate-service-account --key-file=${app_cred}"
+    sh "gcloud container clusters get-credentials ${cluster_name} --zone ${cluster_zone} --project ${project_id}"
+    sh label: 'Deploy to development', script: '''
                                 kubectl cluster-info
                                 helm repo add skymavis https://charts.skymavis.one
                                 helm repo update
                                 '''
-                                // helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${GCR_URL}/${PROJECT_NAME} --set-string image.tag=${BUILD_TAG} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml
+                                // helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml
+     }
   }
+      
+  //  sh "gcloud auth activate-service-account --key-file=${app_cred}"
+  //  sh "gcloud container clusters get-credentials ${cluster_name} --zone ${cluster_zone} --project ${project_id}"
+  //  sh label: 'Deploy to development', script: '''
+  //                               kubectl cluster-info
+  //                               helm repo add skymavis https://charts.skymavis.one
+  //                               helm repo update
+  //                               '''
+  //                               // helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${GCR_URL}/${PROJECT_NAME} --set-string image.tag=${BUILD_TAG} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml
+  // }
 }
