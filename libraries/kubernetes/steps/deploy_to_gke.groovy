@@ -57,8 +57,7 @@ void call(app_env) {
                                 helm repo update
                                 '''
     sh "export GOOGLE_APPLICATION_CREDENTIALS=${app_cred} && helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.registry}/${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml"
-    // sh "helm upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml --debug --dry-run"
-     }
+    }
   }
 
 }
