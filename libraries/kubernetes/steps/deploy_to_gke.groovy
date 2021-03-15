@@ -4,7 +4,7 @@ package libraries.kubernetes
 void call(app_env) {
   stage "Deploy to ${app_env.cluster_name}", {
 
-  def env  = app_cred.environment ?:
+  def env  = app_env.environment ?:
             {error "Application Environment"}()
 
   def cluster_name = app_env.cluster_name ?:
