@@ -50,7 +50,7 @@ void call(app_env) {
   def images = get_images_to_build()
   images.each { img ->
     sh "gcloud auth activate-service-account --key-file=${app_cred}"
-    sh "export GOOGLE_APPLICATION_CREDENTIALS=${app_cred}"
+    // sh "export GOOGLE_APPLICATION_CREDENTIALS=${app_cred}"
     sh "gcloud container clusters get-credentials ${cluster_name} --zone ${cluster_zone} --project ${project_id}"
     sh label: 'Deploy to development', script: '''
                                 kubectl cluster-info
