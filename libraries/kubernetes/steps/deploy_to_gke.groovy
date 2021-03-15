@@ -26,9 +26,9 @@ void call(app_env) {
        or will use "short_name" if present on app_env object.
        will fail otherwise.
     */
-  def release = app_env.release_name ?:
-                "${JOBNAME}"
-                {error "App Env Must Specify release_name or short_name"}()
+  // def release = app_env.release_name ?:
+  //               "${JOBNAME}"
+  //               {error "App Env Must Specify release_name or short_name"}()
 
    /*
       // k8s context
