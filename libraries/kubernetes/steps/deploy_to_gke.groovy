@@ -56,11 +56,10 @@ void call(app_env) {
                                 kubectl cluster-info
                                 helm repo add skymavis https://charts.skymavis.one
                                 helm repo update
-                                export GOOGLE_APPLICATION_CREDENTIALS=${app_cred}
-                                helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.registry}/${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml
+                                export GOOGLE_APPLICATION_CREDENTIALS=/root/.gcloud/helm-secrets.json
                                 '''
     // sh "export GOOGLE_APPLICATION_CREDENTIALS=${app_cred}" 
-    // sh "helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.registry}/${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml"
+    sh "helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.registry}/${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml"
     // sh "helm upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml --debug --dry-run"
      }
   }
