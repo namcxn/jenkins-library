@@ -4,6 +4,9 @@ package libraries.kubernetes
 void call(app_env) {
   stage "Deploy to ${app_env.cluster_name}", {
 
+  def env  = app_cred.environment ?:
+            {error "Application Environment"}()
+
   def cluster_name = app_env.cluster_name ?:
                      config.cluster_name ?:
                      {error "k8s cluster not defined in library config or application environment config"}()
@@ -30,6 +33,13 @@ void call(app_env) {
                 "${JOB_NAME}" ?:
                 {error "App Env Must Specify release_name"}()
 
+  /*
+    helm chart version
+  */
+  def chart_ver = app_env.release_ver ?:
+                  "0.0.1" ?:
+                  {error "App Env Must Specify release_ver"}()
+
    /*
       // k8s context
   def k8s_context = app_env.k8s_context ?:
@@ -44,6 +54,6 @@ void call(app_env) {
                                 helm repo add skymavis https://charts.skymavis.one
                                 helm repo update
                                 '''
-                                // helm secrets upgrade --atomic --install ${release} skymavis/${JOB_NAME} --version ${HELM_CHART_VERSION} --namespace ${NAMESPACE} --set-string image.repository=${GCR_URL}/${PROJECT_NAME} --set-string image.tag=${BUILD_TAG} -f helm_vars/${ENV}/values.yaml -f helm_vars/${ENV}/secrets.yaml
+                                // helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${GCR_URL}/${PROJECT_NAME} --set-string image.tag=${BUILD_TAG} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml
   }
 }
