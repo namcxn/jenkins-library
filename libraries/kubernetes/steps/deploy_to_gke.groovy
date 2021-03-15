@@ -49,6 +49,7 @@ void call(app_env) {
 
   def images = get_images_to_build()
   images.each { img ->
+    sh "gcloud auth activate-service-account --key-file=${app_cred}"
     sh "export GOOGLE_APPLICATION_CREDENTIALS=${app_cred}"
     sh "gcloud container clusters get-credentials ${cluster_name} --zone ${cluster_zone} --project ${project_id}"
     sh label: 'Deploy to development', script: '''
@@ -56,7 +57,7 @@ void call(app_env) {
                                 helm repo add skymavis https://charts.skymavis.one
                                 helm repo update
                                 '''
-    
+    sh "gcloud auth activate-service-account --key-file=${app_cred}"
     sh "helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.registry}/${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml"
     // sh "helm upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml --debug --dry-run"
      }
