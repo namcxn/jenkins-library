@@ -57,7 +57,7 @@ void call(app_env) {
                                 helm repo add skymavis https://charts.skymavis.one
                                 helm repo update
                                 '''
-    sh "gcloud auth application-default login --client-id-file=${app_cred}"
+    sh "gcloud auth application-default login --client-id-file=${app_cred} --quiet"
     sh "helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.registry}/${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml"
     // sh "helm upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml --debug --dry-run"
      }
