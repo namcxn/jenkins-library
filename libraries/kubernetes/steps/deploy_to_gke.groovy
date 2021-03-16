@@ -22,7 +22,9 @@ void call(app_env) {
   def app_cred = app_env.app_cred ?:
                  config.project_id ?:
                  {error "k8s cluster not defined in library config or application environment config"}()
-
+                 
+  def valuesPath = app_env.value_path ?:
+                   {error "k8s cluster not defined in library config or application environment config"}()
   /*
        helm release name.
        will use "release_name" if present on app env object
@@ -56,7 +58,7 @@ void call(app_env) {
                                 helm repo add skymavis https://charts.skymavis.one
                                 helm repo update
                                 '''
-    sh "export GOOGLE_APPLICATION_CREDENTIALS=${app_cred} && helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.registry}/${img.repo} --set-string image.tag=${img.tag} -f helm_vars/${env}/values.yaml -f helm_vars/${env}/secrets.yaml"
+    sh "export GOOGLE_APPLICATION_CREDENTIALS=${app_cred} && helm secrets upgrade --atomic --install ${release} skymavis/${release} --version ${chart_ver} --namespace ${env} --set-string image.repository=${img.registry}/${img.repo} --set-string image.tag=${img.tag} -f ${valuesPath}/values.yaml -f ${valuesPath}/secrets.yaml"
     }
   }
 
